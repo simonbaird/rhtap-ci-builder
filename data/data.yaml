@@ -1,2 +1,31 @@
 ---
-name: World
+steps:
+  - name: init
+    substeps: [init]
+
+  - name: build
+    substeps: [buildah-rhtap]
+
+  - name: sign-attest
+    substeps: [cosign-sign-attest]
+
+  - name: scan
+    substeps: [acs-deploy-check, acs-image-check, acs-image-scan]
+
+  - name: deploy
+    substeps: [update-deployment]
+
+  - name: summary
+    substeps: [show-sbom-rhdh, summary]
+
+secrets:
+  - name: ROX_API_TOKEN
+  - name: ROX_CENTRAL_ENDPOINT
+  - name: GITOPS_AUTH_PASSWORD
+  - name: GITOPS_AUTH_USERNAME
+    commented_out: true
+    comment: Uncomment this when using Gitlab
+  - name: QUAY_IO_CREDS
+  - name: COSIGN_SECRET_PASSWORD
+  - name: COSIGN_SECRET_KEY
+  - name: COSIGN_PUBLIC_KEY

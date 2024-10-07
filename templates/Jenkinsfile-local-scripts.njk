@@ -1,8 +1,3 @@
-library identifier: 'RHTAP_Jenkins@main', retriever: modernSCM(
-  [$class: 'GitSCMSource',
-   remote: 'https://github.com/redhat-appstudio/tssc-sample-jenkins.git'])
-
-
 pipeline {
     agent any
     environment {
@@ -17,12 +12,10 @@ pipeline {
         {%- for step in steps %}
         stage('{{ step.name }}') {
             steps {
-                script {
-                    {%- for substep in step.substeps %}
-                    rhtap.info('{{ substep | replace("-", "_") }}')
-                    rhtap.{{ substep | replace("-", "_") }}()
-                    {%- endfor %}
-                }
+                {%- for substep in step.substeps %}
+                echo '{{ substep | replace("-", "_") }}'
+                sh "rhtap/{{ substep }}.sh"
+                {%- endfor %}
             }
         }
         {%- endfor %}

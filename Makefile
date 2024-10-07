@@ -3,10 +3,13 @@
 refresh: clean build
 
 .PHONY: build
-build: build-jenkins build-github build-gitlab
+build: build-jenkins build-jenkins-local build-github build-gitlab
 
 .PHONY: build-jenkins
 build-jenkins: output/Jenkinsfile
+
+.PHONY: build-jenkins-local
+build-jenkins-local: output/Jenkinsfile-local-scripts
 
 .PHONY: build-github
 build-github: output/dot-github-workflows-build-pipeline.yaml
