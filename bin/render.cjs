@@ -20,7 +20,7 @@ function nunjucksRender(templateFile, contextFile) {
 }
 
 // Configure templates path
-nunjucks.configure('.', {
+nunjucks.configure('templates/partials', {
   autoescape: true,
 });
 

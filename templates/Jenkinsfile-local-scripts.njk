@@ -1,12 +1,7 @@
 pipeline {
     agent any
     environment {
-        {%- for secret in secrets %}
-        {% if secret.comment -%}
-        /* {{ secret.comment }} */
-        {% endif -%}
-        {% if secret.commented_out %}/* {% endif %}{{ secret.name }} = credentials('{{ secret.name }}'){% if secret.commented_out %} */{% endif %}
-        {%- endfor %}
+        {%- include "jenkins-secrets.njk" %}
     }
     stages {
         {%- for step in steps %}
