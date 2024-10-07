@@ -22,3 +22,10 @@ This is currently POC and experimental.
   * <https://github.com/jduimovich/tssc-dev-multi-ci/blob/main/.github/workflows/build-and-update-gitops.yml>
 * Use single source for all common/shared functionality
 * No `sed` commands!
+
+## Getting started
+
+```bash
+make install
+make refresh
+```
