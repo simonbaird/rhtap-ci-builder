@@ -48,6 +48,7 @@ function setupGlobals(env, contextFile, extraData) {
     "GitHub": /github/,
     "GitLab": /gitlab/,
     "Azure": /azure/,
+    "Bash": /\.sh(\..+)?/,
   }
 
   for (const m in matchers) {

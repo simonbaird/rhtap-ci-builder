@@ -9,7 +9,12 @@ ensure-fresh:
 	@$(MAKE) refresh > /dev/null && git diff --exit-code -- generated
 
 .PHONY: build
-build: build-jenkins build-jenkins-local build-github build-gitlab
+build: \
+  build-jenkins \
+  build-jenkins-local \
+  build-github \
+  build-gitlab \
+  build-bash-local-dev
 
 .PHONY: build-jenkins
 build-jenkins: generated/Jenkinsfile
@@ -22,6 +27,9 @@ build-github: generated/dot-github-workflows-build-pipeline.yaml
 
 .PHONY: build-gitlab
 build-gitlab: generated/dot-gitlab-ci.yaml
+
+.PHONY: build-bash-local-dev
+build-bash-local-dev: generated/bash-local-dev.sh
 
 generated/%: templates/%.njk
 	@echo "Building $@"
