@@ -15,8 +15,9 @@ function parseDataFile(fileName) {
   return JSON.parse(fileContent);
 }
 
-function nunjucksRender(templateFile, contextFile) {
-  return nunjucks.renderString(readFile(templateFile), parseDataFile(contextFile));
+function nunjucksRender(templateFile, contextFile, extraData) {
+  const contextData = { ...parseDataFile(contextFile), ...extraData };
+  return nunjucks.renderString(readFile(templateFile), contextData);
 }
 
 // Configure templates path
@@ -34,13 +35,22 @@ for (const filter in filters) {
   env.addFilter(filter, filters[filter]);
 }
 
-// Read and verify params
+// Read and verify required params
 const [templateFile, contextFile] = process.argv.slice(2);
 if (!templateFile || !contextFile) {
-  console.error("Usage:\n  node render.cjs <templateFile> <dataFile>");
+  console.error("Usage:\n  node render.cjs <templateFile> <dataFile> [<key1>=<val1>] [<key2>=<val2>] ...");
   process.exit(1);
 }
 
+// Read optional key=value params
+// Todo maybe: Use json for this
+const paramData = {}
+const keyValArgs = process.argv.slice(4)
+for (const i in keyValArgs) {
+  const [key, val] = keyValArgs[i].split('=');
+  paramData[key] = val;
+}
+
 // Render output
-output = nunjucksRender(templateFile, contextFile)
+output = nunjucksRender(templateFile, contextFile, paramData)
 console.log(output.trimEnd());

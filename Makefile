@@ -26,7 +26,7 @@ build-gitlab: generated/dot-gitlab-ci.yaml
 generated/%: templates/%.njk
 	@echo "Building $@"
 	@mkdir -p `dirname $@`
-	@node bin/render.cjs $< data/data.yaml > $@
+	@node bin/render.cjs $< data/data.yaml _templateFile=$< > $@
 
 .PHONY: clean
 clean:
