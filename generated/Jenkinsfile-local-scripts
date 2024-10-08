@@ -1,3 +1,5 @@
+// Generated from templates/Jenkinsfile-local-scripts.njk. Do not edit directly.
+
 pipeline {
     agent any
     environment {
