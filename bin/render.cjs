@@ -25,14 +25,36 @@ const env = nunjucks.configure('templates/partials', {
   autoescape: true,
 });
 
-// Add some custom filters
+// Custom filters
 const filters = {
   // Avoid needing to use {% raw %} around {{ }} delimiters
   "inCurlies": (str) => `\{{ ${str} }}`,
 }
 
-for (const filter in filters) {
-  env.addFilter(filter, filters[filter]);
+function setupFilters(env, filters) {
+  for (const f in filters) {
+    env.addFilter(f, filters[f]);
+  }
+}
+
+// Custom globals
+function setupGlobals(env, contextFile, extraData) {
+  const contextData = { ...parseDataFile(contextFile), ...extraData };
+
+  // We're expecting the _templateFile key to be set to
+  // the name of the top level template file
+  const matchers = {
+    "Jenkins": /Jenkins/,
+    "GitHub": /github/,
+    "GitLab": /gitlab/,
+    "Azure": /azure/,
+  }
+
+  for (const m in matchers) {
+    env.addGlobal(`is${m}`, matchers[m].test(contextData._templateFile));
+  }
+
+  // Todo maybe: Add globals for git sha and timestamp
 }
 
 // Read and verify required params
@@ -50,6 +72,10 @@ for (const i in keyValArgs) {
   const [key, val] = keyValArgs[i].split('=');
   paramData[key] = val;
 }
+
+// Setup custom stuff
+setupFilters(env, filters)
+setupGlobals(env, contextFile, paramData)
 
 // Render output
 output = nunjucksRender(templateFile, contextFile, paramData)
