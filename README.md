@@ -1,3 +1,7 @@
+>[!IMPORTANT]
+>This repo is no longer maintained. The functionality is being
+>migrated into [redhat-appstudio/tssc-dev-multi-ci](https://github.com/redhat-appstudio/tssc-dev-multi-ci/),
+>starting with [this PR](https://github.com/redhat-appstudio/tssc-dev-multi-ci/pull/5).
 
 # RHTAP CI Builder
 
@@ -5,8 +9,6 @@
 
 Explore a way to generate and maintain tasks and pipelines
 for [RHTAP](https://www.redhat.com/en/products/trusted-application-pipeline) across multiple CI platforms.
-
-This is currently POC and experimental.
 
 ## See also
 
